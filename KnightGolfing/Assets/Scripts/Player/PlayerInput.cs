@@ -9,8 +9,10 @@ public class PlayerInput : MonoBehaviour
     PlayerItem pItem;
     PlayerUI pUI;
 
+
     [Header("Controls")]
     public KeybindData keybinds;
+
 
     [Header("Golfing")]
     public Animator anim;
@@ -28,9 +30,11 @@ public class PlayerInput : MonoBehaviour
         pMvt = GetComponent<PlayerMovement>();
         pItem = GetComponent<PlayerItem>();
         pUI = GetComponent<PlayerUI>();
+
     }
     void Start()
     {
+
         keybinds.ResetKeybinds();
         anim.enabled = false;
     }
@@ -60,6 +64,7 @@ public class PlayerInput : MonoBehaviour
             pItem.heldArmor = pItem.itemData[2];
             pItem.ClubUpdate(); 
         }
+
     }
     void AttemptSwing()
     {

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +10,7 @@ public class PlayerUI : MonoBehaviour
     PlayerItem pItem;
     PlayerMovement pMvt;
     PlayerInput pInput;
+    [SerializeField] GameObject chargeMeter;
 
     public Image curBall;
     public Image prevBall;
@@ -23,13 +25,20 @@ public class PlayerUI : MonoBehaviour
         pItem = GetComponent<PlayerItem>();
         pMvt = GetComponent<PlayerMovement>();
         pInput = GetComponent<PlayerInput>();
+  
     }
     void Start()
     {
         
     }
+    
+    void Charging(float charge)
+    {
+        chargeMeter.transform.position += new Vector3(0,charge,0);
+    }
     public void UpdateUI()
     {
+
         
         switch (pItem.heldClubs.Count)
         {
