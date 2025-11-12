@@ -73,6 +73,20 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
 /KnightGolfing/Library
 /KnightGolfing/UserSettings
 /KnightGolfing/Temp
+/KnightGolfing/Obj/
+/KnightGolfing/Build/
+/KnightGolfing/Builds/
+/KnightGolfing/Logs/
+/KnightGolfing/UserSettings/
+
+/KnightGolfing/[Ll]ibrary/
+/KnightGolfing/[Tt]emp/
+/KnightGolfing/[Oo]bj/
+/KnightGolfing/[Bb]uild/
+/KnightGolfing/[Bb]uilds/
+/KnightGolfing/[Ll]ogs/
+/KnightGolfing/[Uu]ser[Ss]ettings/
