@@ -23,6 +23,7 @@ public class PlayerInput : MonoBehaviour
     float aimSwingBufferTimer;
     public int selectedClubSlot;
     public int selectedBallSlot;
+    float chargeAmt;
 
     private void Awake()
     {
@@ -43,7 +44,8 @@ public class PlayerInput : MonoBehaviour
         switch (curState)
         {
             case State.aiming:
-
+                chargeAmt += Time.deltaTime; if (chargeAmt > 1) { chargeAmt--; }
+                ManageSwing();
                 break;
         }
         GetInputs();
@@ -87,10 +89,16 @@ public class PlayerInput : MonoBehaviour
         pMvt.PauseProcedural();
         anim.enabled = true;
         pMvt.rb.velocity /= 4f;
+        chargeAmt = 0f;
     }
     void Swing()
     {
         ReturnToMovement();
+        pUI.ChargingUI(0);
+    }
+    void ManageSwing()
+    {
+        pUI.ChargingUI(chargeAmt);
     }
     void ReturnToMovement()
     {

@@ -10,8 +10,8 @@ public class PlayerUI : MonoBehaviour
     PlayerItem pItem;
     PlayerMovement pMvt;
     PlayerInput pInput;
-    [SerializeField] GameObject chargeMeter;
 
+    [Header("Equipment")]
     public Image curBall;
     public Image prevBall;
     public Image nextBall;
@@ -20,23 +20,31 @@ public class PlayerUI : MonoBehaviour
     public Image prevClub;
     public Image nextClub;
 
+    [Header("UI")]
+    public Image chargeFill;
+    public Transform chargeFillLine;
+    public Transform chargeTop; Vector3 chargeTopPos;
+    public Transform chargeBottom; Vector3 chargeBottomPos;
+
     private void Awake()
     {
         pItem = GetComponent<PlayerItem>();
         pMvt = GetComponent<PlayerMovement>();
         pInput = GetComponent<PlayerInput>();
-        
-
-
     }
     void Start()
     {
-        
+        chargeTopPos = chargeTop.position;
+        chargeBottomPos = chargeBottom.position;
     }
-    
+    public void ChargingUI(float charge)
+    {
+        chargeFill.fillAmount = charge;
+        chargeFillLine.transform.position = Vector3.Lerp(chargeBottomPos, chargeTopPos, charge);
+    }
     void Charging(float charge)
     {
-        chargeMeter.transform.localPosition = new Vector3(0, Mathf.Sin(charge * Time.deltaTime), 0);
+        //chargeMeter.transform.localPosition = new Vector3(0, Mathf.Sin(charge * Time.deltaTime), 0);
     }
     public void UpdateUI()
     {

@@ -33,10 +33,10 @@ public class AVISWING : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _Input();
+        ManageInput();
     }
 
-    void _Input()
+    void ManageInput()
     {
         if (Input.GetMouseButton(0))
         {
