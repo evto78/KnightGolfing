@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AVISWING : MonoBehaviour
 {
+    PlayerUI _ui;
     PlayerInput input;
     PlayerMovement movement;
     private float chargeBar;
@@ -14,7 +15,9 @@ public class AVISWING : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        _ui = GetComponent<PlayerUI>();
+        input = GetComponent<PlayerInput>();
+        movement = GetComponent<PlayerMovement>();
     }
 
     // Update is called once per frame
@@ -38,6 +41,6 @@ public class AVISWING : MonoBehaviour
             chargeSPEED *= -1;
         }
         chargeBar += chargeSPEED * Time.deltaTime;
-        Debug.Log(chargeBar);
+        gameObject.SendMessage("Charging", chargeBar);
     }
 }
