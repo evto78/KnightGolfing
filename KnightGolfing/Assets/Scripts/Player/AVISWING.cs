@@ -11,10 +11,20 @@ public class AVISWING : MonoBehaviour
     public float chargeBarMAX;
     [SerializeField] private float chargeSPEED;
 
+    //Math
+    float x;
+    float y;
+    float xStart;
+    float Tau;
+    float xFinish;
+    float progress;
 
     // Start is called before the first frame update
     void Start()
     {
+        xStart = 0;
+        Tau = 2 * Mathf.PI;
+        xFinish = Tau;
         _ui = GetComponent<PlayerUI>();
         input = GetComponent<PlayerInput>();
         movement = GetComponent<PlayerMovement>();
@@ -36,11 +46,10 @@ public class AVISWING : MonoBehaviour
 
     void SwingCharge()
     {
-        if (chargeBar < 0f || chargeBar > chargeBarMAX)
-        {
-            chargeSPEED *= -1;
-        }
-        chargeBar += chargeSPEED * Time.deltaTime;
-        gameObject.SendMessage("Charging", chargeBar);
+        
+
+
+        gameObject.SendMessage("Charging", y);
+        Debug.Log(chargeBar);
     }
 }

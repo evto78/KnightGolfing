@@ -25,7 +25,9 @@ public class PlayerUI : MonoBehaviour
         pItem = GetComponent<PlayerItem>();
         pMvt = GetComponent<PlayerMovement>();
         pInput = GetComponent<PlayerInput>();
-  
+        
+
+
     }
     void Start()
     {
@@ -34,7 +36,7 @@ public class PlayerUI : MonoBehaviour
     
     void Charging(float charge)
     {
-        chargeMeter.transform.position += new Vector3(0,charge,0);
+        chargeMeter.transform.localPosition = new Vector3(0, Mathf.Sin(charge * Time.deltaTime), 0);
     }
     public void UpdateUI()
     {
