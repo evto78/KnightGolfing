@@ -40,7 +40,9 @@ public class PlayerUI : MonoBehaviour
     public void ChargingUI(float charge)
     {
         chargeFill.fillAmount = charge;
-        chargeFillLine.transform.position = Vector3.Lerp(chargeBottomPos, chargeTopPos, charge);
+
+        chargeFillLine.transform.position = Vector3.Lerp(chargeBottomPos, chargeTopPos, charge); 
+        
     }
     void Charging(float charge)
     {

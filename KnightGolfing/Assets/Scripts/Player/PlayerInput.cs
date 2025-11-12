@@ -15,6 +15,7 @@ public class PlayerInput : MonoBehaviour
 
 
     [Header("Golfing")]
+    public GameObject hitbox;
     public Animator anim;
     public Vector3 swingingCamOffset;
     public enum State { idle, moveing, sprinting, sliding, jumping, aiming, swinging, spectating}
@@ -27,6 +28,7 @@ public class PlayerInput : MonoBehaviour
 
     private void Awake()
     {
+        hitbox.SetActive(false);
         curState = State.idle;
         pMvt = GetComponent<PlayerMovement>();
         pItem = GetComponent<PlayerItem>();
@@ -94,6 +96,8 @@ public class PlayerInput : MonoBehaviour
     void Swing()
     {
         ReturnToMovement();
+
+
         pUI.ChargingUI(0);
     }
     void ManageSwing()
