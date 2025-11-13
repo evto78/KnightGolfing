@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
@@ -25,7 +26,7 @@ public class PlayerInput : MonoBehaviour
     public int selectedClubSlot;
     public int selectedBallSlot;
     float chargeAmt;
-
+    public float chargePower;
     private void Awake()
     {
         hitbox.SetActive(false);
@@ -95,6 +96,9 @@ public class PlayerInput : MonoBehaviour
     }
     void Swing()
     {
+        hitbox.SetActive(true);
+        chargePower = pUI.chargeFill.fillAmount;
+
         ReturnToMovement();
 
 

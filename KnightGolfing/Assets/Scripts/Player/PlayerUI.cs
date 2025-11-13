@@ -43,6 +43,7 @@ public class PlayerUI : MonoBehaviour
 
         chargeFillLine.transform.position = Vector3.Lerp(chargeBottomPos, chargeTopPos, charge); 
         
+        
     }
     void Charging(float charge)
     {
