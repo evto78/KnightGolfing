@@ -30,7 +30,8 @@ public class ballScript : MonoBehaviour
             float power = other.gameObject.GetComponentInParent<PlayerInput>().chargePower;
             Debug.Log("hit");
             transform.rotation = new Quaternion(transform.rotation.x, other.transform.rotation.y, transform.rotation.z, transform.rotation.w);
-            rb.velocity += Vector3.forward * power * 25;
+            rb.velocity += Vector3.forward * power * 25 + Vector3.up * power * 15;
+            
         }
     }
 }
