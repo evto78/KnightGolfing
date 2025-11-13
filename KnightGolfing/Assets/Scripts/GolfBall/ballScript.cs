@@ -10,7 +10,8 @@ public class ballScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
+        player = GameObject.Find("Player");
     }
 
     // Update is called once per frame
@@ -21,12 +22,15 @@ public class ballScript : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("hitbox"))
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("hitbox"))
         {
-            float power = collision.gameObject.GetComponent<PlayerInput>().chargePower;
-            
-            transform.rotation = new Quaternion(transform.rotation.x, transform.rotation.y, collision.transform.rotation.z, transform.rotation.w);
-            rb.velocity = new Vector3(0, power, power*100);
+            float power = other.gameObject.GetComponentInParent<PlayerInput>().chargePower;
+            Debug.Log("hit");
+            transform.rotation = new Quaternion(transform.rotation.x, other.transform.rotation.y, transform.rotation.z, transform.rotation.w);
+            rb.velocity += Vector3.forward * power * 25;
         }
     }
 }
