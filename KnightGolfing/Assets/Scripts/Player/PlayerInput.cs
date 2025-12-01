@@ -5,15 +5,16 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
-    //Manager Scripts
+    [Header("References")]
     PlayerMovement pMvt;
-    PlayerItem pItem;
     PlayerUI pUI;
-
+    PlayerItem pItem;
+    public GameObject ballPrefab;
+    ballScript launchedBall;
+    public Transform ballSpawn;
 
     [Header("Controls")]
     public KeybindData keybinds;
-
 
     [Header("Golfing")]
     public GameObject hitbox;
@@ -38,8 +39,7 @@ public class PlayerInput : MonoBehaviour
     }
     void Start()
     {
-
-        keybinds.ResetKeybinds();
+        keybinds.ResetKeybinds(); // <-- Force reseting every time since nothing is saved rn
         anim.enabled = false;
     }
     private void Update()
@@ -93,11 +93,18 @@ public class PlayerInput : MonoBehaviour
         anim.enabled = true;
         pMvt.rb.velocity /= 4f;
         chargeAmt = 0f;
+
+        launchedBall = Instantiate(ballPrefab).GetComponent<ballScript>();
+        launchedBall.transform.position = ballSpawn.position;
+        launchedBall.transform.rotation = ballSpawn.rotation;
+        launchedBall.SetUp(pItem, this);
+        launchedBall.PrepareForLaunch();
     }
     void Swing()
     {
-        hitbox.SetActive(true);
+        //hitbox.SetActive(true);
         chargePower = pUI.chargeFill.fillAmount;
+        launchedBall.Launch(chargePower * pItem.heldClubs[selectedClubSlot].clubInfo.force, ballSpawn.forward);
 
         ReturnToMovement();
 
@@ -107,6 +114,9 @@ public class PlayerInput : MonoBehaviour
     void ManageSwing()
     {
         pUI.ChargingUI(chargeAmt);
+        launchedBall.transform.position = ballSpawn.position;
+        launchedBall.transform.rotation = ballSpawn.rotation;
+        launchedBall.PrepareForLaunch();
     }
     void ReturnToMovement()
     {

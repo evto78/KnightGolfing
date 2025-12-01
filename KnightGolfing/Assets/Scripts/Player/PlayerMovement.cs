@@ -209,7 +209,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Physics.BoxCast(new Vector3(transform.position.x, transform.position.y, transform.position.z), new Vector3(myCollider.radius/1.1f,myCollider.height/2.2f,myCollider.radius/1.1f), -Vector3.up, out RaycastHit hit, transform.rotation, 0.55f))
         {
-            if (hit.transform.gameObject.layer == 0 || hit.transform.gameObject.layer == 3)
+            if (hit.transform.gameObject.layer == 0 || hit.transform.gameObject.layer == 3 || hit.transform.gameObject.layer == 6)
             {
                 if(timeSinceLastJump > 0.25f) { jumpsLeft = numOfJumps; }
                 return true;

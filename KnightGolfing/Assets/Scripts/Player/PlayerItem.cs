@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerItem : MonoBehaviour
 {
-    //Manager Scripts
     PlayerMovement pMvt;
     PlayerUI pUI;
     PlayerInput pInput;

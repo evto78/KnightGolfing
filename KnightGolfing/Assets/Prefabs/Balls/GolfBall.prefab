@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8826065567965816524}
   - component: {fileID: 6127524256401553029}
   - component: {fileID: 458316258083429620}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114,10 +114,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4027489347984302116}
-  - component: {fileID: 4544930742694398644}
   - component: {fileID: 4385316503967139487}
+  - component: {fileID: 4544930742694398644}
   - component: {fileID: 1663665015230248504}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: GolfBall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -140,6 +140,25 @@ Transform:
   - {fileID: 6476837142895202018}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4385316503967139487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5699437316669367356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bf0a76c5f08b304096d809a180e09eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  basePhyMat: {fileID: 13400000, guid: 8f45d74524d88b34e9f9c2d4017882a9, type: 2}
+  curState: 0
+  mass: 0
+  pierce: 0
+  airDrag: 0
+  bounce: 0
+  onGround: 0
 --- !u!54 &4544930742694398644
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -148,7 +167,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5699437316669367356}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 0.1
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -166,21 +185,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!114 &4385316503967139487
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5699437316669367356}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bf0a76c5f08b304096d809a180e09eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  rb: {fileID: 4544930742694398644}
+  m_CollisionDetection: 2
 --- !u!135 &1663665015230248504
 SphereCollider:
   m_ObjectHideFlags: 0
