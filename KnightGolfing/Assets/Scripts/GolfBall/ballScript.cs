@@ -8,7 +8,7 @@ public class ballScript : MonoBehaviour
 {
     [Header("Technical")]
     PlayerItem pi;
-    Rigidbody rb;
+    public Rigidbody rb;
     public PhysicMaterial basePhyMat;
     PhysicMaterial phyMat;
     Collider myCollider;
@@ -21,7 +21,6 @@ public class ballScript : MonoBehaviour
     public float bounce;
     [Header("Internal")]
     public bool onGround;
-    bool launched = false;
     
     public void SetUp(PlayerItem playerItem, PlayerInput playerInput)
     {
@@ -78,14 +77,14 @@ public class ballScript : MonoBehaviour
         //FIRE!!
         rb.isKinematic = false;
         StartCoroutine(FlightCheck());
-        rb.AddForce(forceDir * force, ForceMode.Impulse);
+        rb.AddForce(3f * force * forceDir, ForceMode.Impulse);
     }
     public bool IsIdle() { return curState == State.idle; }
     IEnumerator FlightCheck()
     {
-        curState = State.flying; launched = true; float graceTimer = 0.1f;
+        curState = State.flying; float graceTimer = 0.1f;
         while (!onGround || graceTimer > 0) { yield return new WaitForEndOfFrame(); if (graceTimer > 0) { graceTimer -= Time.deltaTime; } }
-        launched = false; curState = State.rolling;
+        curState = State.rolling;
         yield return null;
     }
     private void OnCollisionEnter(Collision collision)

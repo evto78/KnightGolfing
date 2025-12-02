@@ -50,6 +50,9 @@ public class PlayerInput : MonoBehaviour
                 chargeAmt += Time.deltaTime; if (chargeAmt > 1) { chargeAmt--; }
                 ManageSwing();
                 break;
+            case State.spectating:
+                ManageSpectating();
+                break;
         }
         GetInputs();
     }
@@ -81,6 +84,7 @@ public class PlayerInput : MonoBehaviour
             case State.sprinting: BeginSwinging(); break;
             case State.sliding: BeginSwinging(); break;
             case State.aiming: Swing(); break;
+            case State.spectating: ReturnToMovement(); break;
         }
     }
     void BeginSwinging()
@@ -99,17 +103,18 @@ public class PlayerInput : MonoBehaviour
         launchedBall.transform.rotation = ballSpawn.rotation;
         launchedBall.SetUp(pItem, this);
         launchedBall.PrepareForLaunch();
+
+        pUI.ChangeState(PlayerUI.State.aiming);
     }
     void Swing()
     {
         //hitbox.SetActive(true);
         chargePower = pUI.chargeFill.fillAmount;
+        if(chargePower > 0.95f) { chargePower = 1.25f; pUI.chargeFill.fillAmount = 1; } //POWER SHOT!
         launchedBall.Launch(chargePower * pItem.heldClubs[selectedClubSlot].clubInfo.force, ballSpawn.forward);
-
-        ReturnToMovement();
-
-
-        pUI.ChargingUI(0);
+        curState = State.spectating;
+        pMvt.spectatingCamera.GetComponent<LookAtTarget>().target = launchedBall.transform;
+        pUI.ChangeState(PlayerUI.State.spectating);
     }
     void ManageSwing()
     {
@@ -118,13 +123,46 @@ public class PlayerInput : MonoBehaviour
         launchedBall.transform.rotation = ballSpawn.rotation;
         launchedBall.PrepareForLaunch();
     }
+    void ManageSpectating()
+    {
+        chargeAmt = 0;
+        pUI.ChargingUI(chargeAmt);
+        pMvt.mainCam.enabled = false;
+        pMvt.uiCam.enabled = false;
+        Camera sCam = pMvt.spectatingCamera;
+        pMvt.spectatingBall = true;
+        sCam.transform.parent = null;
+        sCam.enabled = true;
+        Vector3 spectatingOffset = sCam.transform.forward * -6f;
+        sCam.transform.position = Vector3.Lerp(sCam.transform.position, launchedBall.transform.position + spectatingOffset, Time.deltaTime * 4f);
+        sCam.fieldOfView = Mathf.Lerp(pMvt.minMaxSpectatingFOV.x, pMvt.minMaxSpectatingFOV.y, launchedBall.rb.velocity.magnitude / 100f);
+
+        switch (launchedBall.curState)
+        {
+            case ballScript.State.idle: break;
+            case ballScript.State.flying: break;
+            case ballScript.State.rolling: break;
+        }
+    }
     void ReturnToMovement()
     {
+        chargeAmt = 0;
+        pUI.ChargingUI(0);
         aimSwingBufferTimer = 0.1f;
         freezeMovement = false;
+        pMvt.mainCam.enabled = true;
+        pMvt.uiCam.enabled = true;
+        pMvt.spectatingBall = false;
+        Camera sCam = pMvt.spectatingCamera;
+        sCam.enabled = false;
+        sCam.transform.parent = pMvt.camHolder.GetChild(0);
+        sCam.transform.localPosition = Vector3.forward * 0.5f;
+        sCam.transform.localEulerAngles = Vector3.zero;
         curState = State.idle;
         pMvt.actingCamOffset = pMvt.camOffset;
         pMvt.ResumeProcedural();
         anim.enabled = false;
+
+        pUI.ChangeState(PlayerUI.State.walking);
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerUI : MonoBehaviour
 {
@@ -25,6 +26,24 @@ public class PlayerUI : MonoBehaviour
     public Transform chargeFillLine;
     public Transform chargeTop; Vector3 chargeTopPos;
     public Transform chargeBottom; Vector3 chargeBottomPos;
+    public TextMeshProUGUI shotText;
+    [System.Serializable]
+    public class ShotType
+    {
+        public string displayText;
+        public TMP_FontAsset displayFont;
+        public Color color;
+        [Tooltip("A value between 0 and 1 that is the amount the current aim charge needs to be above for this to display.")]
+        public float chargeThreshold;
+    }
+    public List<ShotType> shotTypes;
+    ShotType curShotType;
+    public enum State { walking, aiming, spectating}
+    public State curState;
+    public GameObject walkUI;
+    public GameObject aimUI;
+    public GameObject specUI;
+    public GameObject gearUI;
 
     private void Awake()
     {
@@ -36,23 +55,52 @@ public class PlayerUI : MonoBehaviour
     {
         chargeTopPos = chargeTop.position;
         chargeBottomPos = chargeBottom.position;
+
+        ChangeState(State.walking);
+    }
+    public void ChangeState(State newState)
+    {
+        if(curState == newState) { return; }
+        curState = newState;
+        switch (curState)
+        {
+            case State.walking:
+                walkUI.SetActive(true); aimUI.SetActive(false); specUI.SetActive(false); gearUI.SetActive(true);
+                break;
+            case State.aiming:
+                walkUI.SetActive(false); aimUI.SetActive(true); specUI.SetActive(false); gearUI.SetActive(true);
+                break;
+            case State.spectating:
+                walkUI.SetActive(false); aimUI.SetActive(false); specUI.SetActive(true); gearUI.SetActive(false);
+                UpdateCurShotType(pInput.chargePower);
+                break;
+        }
     }
     public void ChargingUI(float charge)
     {
         chargeFill.fillAmount = charge;
 
         chargeFillLine.transform.position = Vector3.Lerp(chargeBottomPos, chargeTopPos, charge); 
-        
-        
-    }
-    void Charging(float charge)
-    {
-        //chargeMeter.transform.localPosition = new Vector3(0, Mathf.Sin(charge * Time.deltaTime), 0);
     }
     public void UpdateUI()
     {
-
-        
+        switch (curState)
+        {
+            case State.walking:
+                UpdateGearUI();
+                UpdateWalkUI();
+                break;
+            case State.aiming:
+                UpdateGearUI();
+                UpdateAimUI();
+                break;
+            case State.spectating:
+                UpdateSpecUI();
+                break;
+        }
+    }
+    void UpdateGearUI()
+    {
         switch (pItem.heldClubs.Count)
         {
             case 0:
@@ -197,5 +245,24 @@ public class PlayerUI : MonoBehaviour
                 }
                 break;
         }
+    }
+    void UpdateWalkUI()
+    {
+
+    }
+    void UpdateAimUI()
+    {
+
+    }
+    void UpdateCurShotType(float chargePower) 
+    {
+        curShotType = shotTypes[0];
+        foreach (ShotType st in shotTypes) { if (chargePower > st.chargeThreshold) { curShotType = st; } }
+    }
+    void UpdateSpecUI()
+    {
+        shotText.text = curShotType.displayText;
+        shotText.font = curShotType.displayFont;
+        shotText.color = curShotType.color;
     }
 }

@@ -41,6 +41,11 @@ public class PlayerMovement : MonoBehaviour
     float camDistance;
     Vector3 initialCamPos;
     public Vector3 camOffset; public Vector3 actingCamOffset;
+    public Camera mainCam;
+    public Camera uiCam;
+    public bool spectatingBall;
+    public Camera spectatingCamera;
+    public Vector2 minMaxSpectatingFOV;
 
     private void Awake()
     {
