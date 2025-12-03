@@ -16,9 +16,10 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: a3d0b480a1c726d408c1fa22006fdf2a, type: 3}
   itemName: Paper Ball
   statBuffs:
-  - 0.1x Mass
-  - 0.3x Bounce
-  statDebuffs: []
+  - 0.5x Mass
+  statDebuffs:
+  - 0.5x Bounce
+  - 2.5x Air Drag
   activateAbility: 
   hasActive: 0
   activeCooldown: 0
@@ -34,11 +35,12 @@ MonoBehaviour:
     control: 0
     swingSpeed: 0
   ballInfo:
-    prefab: {fileID: 0}
-    mass: 0.1
+    prefab: {fileID: 5699437316669367356, guid: 87b8c95fb14c92e4782eea7e33b2ccdf, type: 3}
+    mass: 0.5
     pierce: 0
-    airDrag: 1
-    bounce: 0.3
+    airDrag: 2.5
+    bounce: 0.5
+    friction: 1
   armorInfo:
     speedMod: 0
     jumpMod: 0

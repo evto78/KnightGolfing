@@ -18,6 +18,7 @@ public class ballScript : MonoBehaviour
     public float mass;
     public int pierce;
     public float airDrag;
+    public float friction;
     public float bounce;
     [Header("Internal")]
     public bool onGround;
@@ -28,20 +29,23 @@ public class ballScript : MonoBehaviour
         pi = playerItem;
         rb = GetComponent<Rigidbody>();
 
-        //Update Physics
-        PhysicsSetUp();
-
-        //Get Stat Changes
-        ItemObject.BallProperties myInfo = playerItem.heldBalls[playerInput.selectedBallSlot].ballInfo;
-        mass = myInfo.mass;
-        pierce = myInfo.pierce;
-        airDrag = myInfo.airDrag;
-        bounce = myInfo.bounce;
+        //Set Base Stats
+        mass = 0.1f;
+        pierce = 0;
+        airDrag = 0.01f;
+        bounce = 0.9f;
+        friction = 0.05f;
 
         //Apply Stat Changes
-        rb.mass *= mass;
-        rb.drag *= airDrag;
-        phyMat.bounciness *= bounce;
+        ItemObject.BallProperties myInfo = playerItem.heldBalls[playerInput.selectedBallSlot].ballInfo;
+        mass *= myInfo.mass;
+        pierce += myInfo.pierce;
+        airDrag *= myInfo.airDrag;
+        bounce *= myInfo.bounce;
+        friction *= myInfo.friction;
+
+        //Update Physics
+        PhysicsSetUp();
     }
     void PhysicsSetUp()
     {
@@ -49,18 +53,18 @@ public class ballScript : MonoBehaviour
 
         //Build New PhysicsMaterial
         phyMat = new PhysicMaterial();
-        phyMat.dynamicFriction = basePhyMat.dynamicFriction;
-        phyMat.staticFriction = basePhyMat.staticFriction;
-        phyMat.bounciness = basePhyMat.bounciness;
-        phyMat.frictionCombine = basePhyMat.frictionCombine;
+        phyMat.dynamicFriction = 0;
+        phyMat.staticFriction = 0;
+        phyMat.bounciness = bounce;
+        phyMat.frictionCombine = PhysicMaterialCombine.Minimum;
         phyMat.bounceCombine = basePhyMat.bounceCombine;
         phyMat.name = "Ball_Instance";
 
         //Setup RigidBody For A Clean Slate.
-        rb.mass = 0.1f;
-        rb.drag = 0.1f;
+        rb.mass = mass;
+        rb.drag = 0f;
         rb.angularDrag = 0.05f;
-        rb.useGravity = true;
+        rb.useGravity = false;
         rb.isKinematic = false;
 
         //Apply New PhysicsMaterial
@@ -75,7 +79,7 @@ public class ballScript : MonoBehaviour
     public void Launch(float force, Vector3 forceDir)
     {
         //FIRE!!
-        rb.isKinematic = false;
+        rb.isKinematic = false; onGround = false;
         StartCoroutine(FlightCheck());
         rb.AddForce(3f * force * forceDir, ForceMode.Impulse);
     }
@@ -107,8 +111,30 @@ public class ballScript : MonoBehaviour
             case 6: onGround = false; break; //Ground
         }
     }
+    private void Update()
+    {
+        if (curState == State.idle) { return; }
+        ManagePhysics();
+    }
     void ManagePhysics()
     {
+        //Gravity
+        rb.velocity += Physics.gravity * Time.deltaTime;
 
+        //Drag
+        rb.velocity /= 1 + ((airDrag * Time.deltaTime) / mass);
+
+        //Friction
+        float frictionMod;
+        if (onGround)
+        {
+            switch (rb.velocity.magnitude)
+            {
+                case < 0.3f: rb.velocity = Vector3.zero; curState = State.idle; return;
+                case < 1f: frictionMod = 1f + (rb.velocity.magnitude / 0.5f); break;
+                default: frictionMod = 1f; break;
+            }
+            rb.velocity /= 1 + ((friction * frictionMod * Time.deltaTime) / mass);
+        }
     }
 }

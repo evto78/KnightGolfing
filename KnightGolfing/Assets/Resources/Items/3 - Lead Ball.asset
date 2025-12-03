@@ -17,7 +17,10 @@ MonoBehaviour:
   itemName: Lead Ball
   statBuffs:
   - 2x Mass
-  statDebuffs: []
+  - 0.5x Air Drag
+  - 0.75x Friction
+  statDebuffs:
+  - 0.5x Bounce
   activateAbility: 
   hasActive: 0
   activeCooldown: 0
@@ -33,11 +36,12 @@ MonoBehaviour:
     control: 0
     swingSpeed: 0
   ballInfo:
-    prefab: {fileID: 0}
+    prefab: {fileID: 5699437316669367356, guid: fc5507e481246eb478f428d5156bdd44, type: 3}
     mass: 2
     pierce: 0
-    airDrag: 1
-    bounce: 1
+    airDrag: 0.5
+    bounce: 0.5
+    friction: 0.75
   armorInfo:
     speedMod: 0
     jumpMod: 0

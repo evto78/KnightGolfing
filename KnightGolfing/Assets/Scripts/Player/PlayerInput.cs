@@ -9,7 +9,6 @@ public class PlayerInput : MonoBehaviour
     PlayerMovement pMvt;
     PlayerUI pUI;
     PlayerItem pItem;
-    public GameObject ballPrefab;
     public ballScript launchedBall;
     public Transform ballSpawn;
 
@@ -19,7 +18,6 @@ public class PlayerInput : MonoBehaviour
     [Header("Golfing")]
     public GameObject hitbox;
     public Animator anim;
-    public Vector3 swingingCamOffset;
     public enum State { idle, moveing, sprinting, sliding, jumping, aiming, swinging, spectating}
     public State curState;
     public bool freezeMovement;
@@ -92,13 +90,13 @@ public class PlayerInput : MonoBehaviour
         aimSwingBufferTimer = 0.1f;
         freezeMovement = true;
         curState = State.aiming;
-        pMvt.actingCamOffset = swingingCamOffset;
+        pMvt.actingCamOffset = pMvt.camOffset + new Vector3(pMvt.mainCam.transform.right.x, 0, pMvt.mainCam.transform.right.z);
         pMvt.PauseProcedural();
         anim.enabled = true;
         pMvt.rb.velocity /= 4f;
         chargeAmt = 0f;
 
-        launchedBall = Instantiate(ballPrefab).GetComponent<ballScript>();
+        launchedBall = Instantiate(pItem.heldBalls[selectedBallSlot].ballInfo.prefab).GetComponent<ballScript>();
         launchedBall.transform.position = ballSpawn.position;
         launchedBall.transform.rotation = ballSpawn.rotation;
         launchedBall.SetUp(pItem, this);
@@ -111,7 +109,6 @@ public class PlayerInput : MonoBehaviour
         //hitbox.SetActive(true);
         chargePower = pUI.chargeFill.fillAmount;
         if(chargePower > 0.95f) { chargePower = 1.25f; pUI.chargeFill.fillAmount = 1; } //POWER SHOT!
-        //Vector3 launchDir = new Vector3(pMvt.mainCam.transform.forward.x, 0.2f, pMvt.mainCam.transform.forward.z).normalized;
         Vector3 launchDir = (pMvt.mainCam.transform.forward + Vector3.up * 0.2f).normalized;
         launchedBall.Launch(chargePower * pItem.heldClubs[selectedClubSlot].clubInfo.force, launchDir);
         curState = State.spectating;
@@ -120,13 +117,14 @@ public class PlayerInput : MonoBehaviour
     }
     void ManageSwing()
     {
+        pMvt.actingCamOffset = pMvt.camOffset + new Vector3(pMvt.mainCam.transform.right.x, 0, pMvt.mainCam.transform.right.z);
+
         pUI.ChargingUI(chargeAmt);
         launchedBall.transform.position = ballSpawn.position;
         launchedBall.transform.rotation = ballSpawn.rotation;
         launchedBall.PrepareForLaunch();
 
-        //pUI.DrawPredictionLine(pItem.heldClubs[selectedClubSlot].clubInfo.force, launchedBall.rb.mass, launchedBall.rb.drag, chargeAmt, new Vector3(pMvt.mainCam.transform.forward.x, 0.2f, pMvt.mainCam.transform.forward.z).normalized);
-        pUI.DrawPredictionLine(pItem.heldClubs[selectedClubSlot].clubInfo.force, launchedBall.rb.mass, launchedBall.rb.drag, chargeAmt, (pMvt.mainCam.transform.forward + Vector3.up * 0.2f).normalized);
+        pUI.DrawPredictionLine(pItem.heldClubs[selectedClubSlot].clubInfo.force, launchedBall.mass, launchedBall.airDrag, chargeAmt, (pMvt.mainCam.transform.forward + Vector3.up * 0.2f).normalized);
     }
     void ManageSpectating()
     {
@@ -140,7 +138,7 @@ public class PlayerInput : MonoBehaviour
         sCam.enabled = true;
         Vector3 spectatingOffset = sCam.transform.forward * -6f;
         sCam.transform.position = Vector3.Lerp(sCam.transform.position, launchedBall.transform.position + spectatingOffset, Time.deltaTime * 4f);
-        sCam.fieldOfView = Mathf.Lerp(pMvt.minMaxSpectatingFOV.x, pMvt.minMaxSpectatingFOV.y, launchedBall.rb.velocity.magnitude / 100f);
+        sCam.fieldOfView = Mathf.Lerp(pMvt.minMaxSpectatingFOV.x, pMvt.minMaxSpectatingFOV.y, Mathf.Clamp(launchedBall.rb.velocity.magnitude / 100f, 0.1f, 1f));
 
         switch (launchedBall.curState)
         {

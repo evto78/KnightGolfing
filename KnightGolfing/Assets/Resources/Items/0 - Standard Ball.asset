@@ -32,11 +32,12 @@ MonoBehaviour:
     control: 0
     swingSpeed: 0
   ballInfo:
-    prefab: {fileID: 0}
+    prefab: {fileID: 5699437316669367356, guid: 89fcf58dae03a7e41823a52e2f6cf2e0, type: 3}
     mass: 1
     pierce: 0
     airDrag: 1
     bounce: 1
+    friction: 1
   armorInfo:
     speedMod: 0
     jumpMod: 0

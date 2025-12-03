@@ -18,6 +18,7 @@ MonoBehaviour:
   statBuffs:
   - 1 Pierce
   - 0.5x Air Drag
+  - 1.2x Mass
   statDebuffs: []
   activateAbility: 
   hasActive: 0
@@ -34,11 +35,12 @@ MonoBehaviour:
     control: 0
     swingSpeed: 0
   ballInfo:
-    prefab: {fileID: 0}
-    mass: 1
+    prefab: {fileID: 5699437316669367356, guid: e8649327989dc814fa9956aa046a27e5, type: 3}
+    mass: 1.2
     pierce: 1
     airDrag: 0.5
     bounce: 1
+    friction: 1
   armorInfo:
     speedMod: 0
     jumpMod: 0

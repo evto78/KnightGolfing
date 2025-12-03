@@ -51,6 +51,7 @@ public class ItemObject : ScriptableObject
         public int pierce;
         public float airDrag;
         public float bounce;
+        public float friction;
     }
     [System.Serializable]
     public class ArmorProperties

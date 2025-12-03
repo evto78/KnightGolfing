@@ -75,7 +75,7 @@ public class PlayerUI : MonoBehaviour
                 walkUI.SetActive(false); aimUI.SetActive(true); specUI.SetActive(false); gearUI.SetActive(true);
                 break;
             case State.spectating:
-                walkUI.SetActive(false); aimUI.SetActive(false); specUI.SetActive(true); gearUI.SetActive(false);
+                walkUI.SetActive(false); aimUI.SetActive(true); specUI.SetActive(true); gearUI.SetActive(false);
                 UpdateCurShotType(pInput.chargePower);
                 break;
         }
@@ -273,7 +273,7 @@ public class PlayerUI : MonoBehaviour
         {
             case < 1: ballVelocityText.text = "Velocity : <1"; break;
             default: ballVelocityText.text = "Velocity : " + roundedVel; break;
-        }
+        } if (pInput.launchedBall.rb.velocity.magnitude == 0) { ballVelocityText.text = "Velocity : STOPPED"; }
         foreach (ShotType st in shotTypes) { st.textObj.SetActive(false); }
         curShotType.textObj.SetActive(true);
         if (shotTypeFadeTimer > 0) { shotTypeFadeTimer -= Time.deltaTime; }
@@ -284,24 +284,28 @@ public class PlayerUI : MonoBehaviour
     {
         lr.enabled = true;
         if (chargeAmt > 0.95f) { chargeAmt = 1.25f; }
-        int pointCount = 30;
+
+        float stepTime = 0.1f;
+        float flightDuration = 3f;
+
+        int pointCount = (int)(flightDuration / stepTime);
         Vector3[] lPoints = new Vector3[pointCount];
 
-        float stepTime = Time.fixedDeltaTime;
-        Vector3 predicVel = ((chargeAmt * force * 21f * forceDir) / mass) * stepTime;
+        Vector3 predicVel = ((chargeAmt * force * 3f * forceDir) / mass);
         Vector3 stepPredicVel = predicVel;
         Vector3 prevPoint = pInput.ballSpawn.position;
+
         lPoints[0] = prevPoint;
         for (int i = 0; i < pointCount-1; i++) 
         {
-            Vector3 point = lPoints[i];
             stepPredicVel += Physics.gravity * stepTime;
-            stepPredicVel *= 1f-(drag * stepTime);
+            stepPredicVel /= 1 + ((drag * stepTime) / mass);
 
-            point = prevPoint + (stepPredicVel * 1);
-            prevPoint = point;
-            lPoints[i+1] = point;
+            lPoints[i+1] = prevPoint + stepPredicVel * stepTime;
+
+            prevPoint = lPoints[i+1];
         }
+
         lr.positionCount = lPoints.Length;
         lr.SetPositions(lPoints);
     }
