@@ -4,6 +4,7 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 
 public class PlayerUI : MonoBehaviour
 {
@@ -26,24 +27,27 @@ public class PlayerUI : MonoBehaviour
     public Transform chargeFillLine;
     public Transform chargeTop; Vector3 chargeTopPos;
     public Transform chargeBottom; Vector3 chargeBottomPos;
-    public TextMeshProUGUI shotText;
+    public TextMeshProUGUI ballVelocityText;
     [System.Serializable]
     public class ShotType
     {
-        public string displayText;
-        public TMP_FontAsset displayFont;
-        public Color color;
+        public GameObject textObj;
+        public TextMeshProUGUI tmp;
+        public Color initialColor;
+        public float timeToFade;
         [Tooltip("A value between 0 and 1 that is the amount the current aim charge needs to be above for this to display.")]
         public float chargeThreshold;
     }
     public List<ShotType> shotTypes;
     ShotType curShotType;
+    Color curShotTypeColor; float shotTypeFadeTimer;
     public enum State { walking, aiming, spectating}
     public State curState;
     public GameObject walkUI;
     public GameObject aimUI;
     public GameObject specUI;
     public GameObject gearUI;
+    public LineRenderer lr;
 
     private void Awake()
     {
@@ -53,6 +57,7 @@ public class PlayerUI : MonoBehaviour
     }
     void Start()
     {
+        lr.enabled = false;
         chargeTopPos = chargeTop.position;
         chargeBottomPos = chargeBottom.position;
 
@@ -60,7 +65,6 @@ public class PlayerUI : MonoBehaviour
     }
     public void ChangeState(State newState)
     {
-        if(curState == newState) { return; }
         curState = newState;
         switch (curState)
         {
@@ -252,17 +256,53 @@ public class PlayerUI : MonoBehaviour
     }
     void UpdateAimUI()
     {
-
+        
     }
     void UpdateCurShotType(float chargePower) 
     {
         curShotType = shotTypes[0];
         foreach (ShotType st in shotTypes) { if (chargePower > st.chargeThreshold) { curShotType = st; } }
+        curShotType.tmp.color = curShotType.initialColor;
+        shotTypeFadeTimer = curShotType.timeToFade;
+        curShotTypeColor = curShotType.initialColor;
     }
     void UpdateSpecUI()
     {
-        shotText.text = curShotType.displayText;
-        shotText.font = curShotType.displayFont;
-        shotText.color = curShotType.color;
+        int roundedVel = Mathf.FloorToInt(pInput.launchedBall.rb.velocity.magnitude);
+        switch (roundedVel)
+        {
+            case < 1: ballVelocityText.text = "Velocity : <1"; break;
+            default: ballVelocityText.text = "Velocity : " + roundedVel; break;
+        }
+        foreach (ShotType st in shotTypes) { st.textObj.SetActive(false); }
+        curShotType.textObj.SetActive(true);
+        if (shotTypeFadeTimer > 0) { shotTypeFadeTimer -= Time.deltaTime; }
+        curShotTypeColor = Color.Lerp(curShotType.initialColor, new Color(curShotType.initialColor.r, curShotType.initialColor.g, curShotType.initialColor.b, 0f), (shotTypeFadeTimer / curShotType.timeToFade));
+        curShotType.tmp.color = curShotTypeColor;
+    }
+    public void DrawPredictionLine(float force, float mass, float drag, float chargeAmt, Vector3 forceDir)
+    {
+        lr.enabled = true;
+        if (chargeAmt > 0.95f) { chargeAmt = 1.25f; }
+        int pointCount = 30;
+        Vector3[] lPoints = new Vector3[pointCount];
+
+        float stepTime = Time.fixedDeltaTime;
+        Vector3 predicVel = ((chargeAmt * force * 21f * forceDir) / mass) * stepTime;
+        Vector3 stepPredicVel = predicVel;
+        Vector3 prevPoint = pInput.ballSpawn.position;
+        lPoints[0] = prevPoint;
+        for (int i = 0; i < pointCount-1; i++) 
+        {
+            Vector3 point = lPoints[i];
+            stepPredicVel += Physics.gravity * stepTime;
+            stepPredicVel *= 1f-(drag * stepTime);
+
+            point = prevPoint + (stepPredicVel * 1);
+            prevPoint = point;
+            lPoints[i+1] = point;
+        }
+        lr.positionCount = lPoints.Length;
+        lr.SetPositions(lPoints);
     }
 }

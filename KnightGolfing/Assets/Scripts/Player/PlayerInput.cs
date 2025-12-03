@@ -10,7 +10,7 @@ public class PlayerInput : MonoBehaviour
     PlayerUI pUI;
     PlayerItem pItem;
     public GameObject ballPrefab;
-    ballScript launchedBall;
+    public ballScript launchedBall;
     public Transform ballSpawn;
 
     [Header("Controls")]
@@ -111,7 +111,9 @@ public class PlayerInput : MonoBehaviour
         //hitbox.SetActive(true);
         chargePower = pUI.chargeFill.fillAmount;
         if(chargePower > 0.95f) { chargePower = 1.25f; pUI.chargeFill.fillAmount = 1; } //POWER SHOT!
-        launchedBall.Launch(chargePower * pItem.heldClubs[selectedClubSlot].clubInfo.force, ballSpawn.forward);
+        //Vector3 launchDir = new Vector3(pMvt.mainCam.transform.forward.x, 0.2f, pMvt.mainCam.transform.forward.z).normalized;
+        Vector3 launchDir = (pMvt.mainCam.transform.forward + Vector3.up * 0.2f).normalized;
+        launchedBall.Launch(chargePower * pItem.heldClubs[selectedClubSlot].clubInfo.force, launchDir);
         curState = State.spectating;
         pMvt.spectatingCamera.GetComponent<LookAtTarget>().target = launchedBall.transform;
         pUI.ChangeState(PlayerUI.State.spectating);
@@ -122,6 +124,9 @@ public class PlayerInput : MonoBehaviour
         launchedBall.transform.position = ballSpawn.position;
         launchedBall.transform.rotation = ballSpawn.rotation;
         launchedBall.PrepareForLaunch();
+
+        //pUI.DrawPredictionLine(pItem.heldClubs[selectedClubSlot].clubInfo.force, launchedBall.rb.mass, launchedBall.rb.drag, chargeAmt, new Vector3(pMvt.mainCam.transform.forward.x, 0.2f, pMvt.mainCam.transform.forward.z).normalized);
+        pUI.DrawPredictionLine(pItem.heldClubs[selectedClubSlot].clubInfo.force, launchedBall.rb.mass, launchedBall.rb.drag, chargeAmt, (pMvt.mainCam.transform.forward + Vector3.up * 0.2f).normalized);
     }
     void ManageSpectating()
     {
