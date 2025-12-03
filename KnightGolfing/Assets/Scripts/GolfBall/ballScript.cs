@@ -107,4 +107,8 @@ public class ballScript : MonoBehaviour
             case 6: onGround = false; break; //Ground
         }
     }
+    void ManagePhysics()
+    {
+
+    }
 }
