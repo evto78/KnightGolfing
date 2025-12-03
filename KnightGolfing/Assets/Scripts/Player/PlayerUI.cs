@@ -48,6 +48,7 @@ public class PlayerUI : MonoBehaviour
     public GameObject specUI;
     public GameObject gearUI;
     public LineRenderer lr;
+    public GameObject ballPointer;
 
     private void Awake()
     {
@@ -252,11 +253,19 @@ public class PlayerUI : MonoBehaviour
     }
     void UpdateWalkUI()
     {
-
+        if (pInput.launchedBall != null)
+        {
+            ballPointer.SetActive(true);
+            ballPointer.GetComponent<LookAtTarget>().target = pInput.launchedBall.transform;
+        }
+        else
+        {
+            ballPointer.SetActive(false);
+        }
     }
     void UpdateAimUI()
     {
-        
+        ballPointer.SetActive(false);
     }
     void UpdateCurShotType(float chargePower) 
     {
@@ -268,6 +277,7 @@ public class PlayerUI : MonoBehaviour
     }
     void UpdateSpecUI()
     {
+        ballPointer.SetActive(false);
         int roundedVel = Mathf.FloorToInt(pInput.launchedBall.rb.velocity.magnitude);
         switch (roundedVel)
         {

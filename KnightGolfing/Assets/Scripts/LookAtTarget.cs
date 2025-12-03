@@ -5,5 +5,9 @@ using UnityEngine;
 public class LookAtTarget : MonoBehaviour
 {
     public Transform target;
-    void Update() { if (target == null) { return; } transform.LookAt(target); }
+    void Update() 
+    {
+        if (target == null) { return; } 
+        transform.LookAt(target); 
+    }
 }
