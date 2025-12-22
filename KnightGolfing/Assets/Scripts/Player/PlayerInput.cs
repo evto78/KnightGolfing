@@ -18,7 +18,7 @@ public class PlayerInput : MonoBehaviour
     [Header("Golfing")]
     public GameObject hitbox;
     public Animator anim;
-    public enum State { idle, moveing, sprinting, sliding, jumping, aiming, swinging, spectating}
+    public enum State { idle, moving, sprinting, sliding, jumping, aiming, swinging, spectating}
     public State curState;
     public bool freezeMovement;
     float aimSwingBufferTimer;
@@ -26,6 +26,7 @@ public class PlayerInput : MonoBehaviour
     public int selectedBallSlot;
     float chargeAmt;
     public float chargePower;
+    public float turnPower = 0.5f;
     private void Awake()
     {
         hitbox.SetActive(false);
@@ -97,7 +98,7 @@ public class PlayerInput : MonoBehaviour
         switch (curState)
         {
             case State.idle: BeginSwinging(); break;
-            case State.moveing: BeginSwinging(); break;
+            case State.moving: BeginSwinging(); break;
             case State.sprinting: BeginSwinging(); break;
             case State.sliding: BeginSwinging(); break;
             case State.aiming: Swing(); break;
@@ -164,6 +165,17 @@ public class PlayerInput : MonoBehaviour
             case ballScript.State.idle: break;
             case ballScript.State.flying: break;
             case ballScript.State.rolling: break;
+        }
+
+        if (Input.GetKey(KeyCode.A))
+        {
+            Rigidbody rb = launchedBall.GetComponent<Rigidbody>();
+            rb.velocity = Quaternion.Euler(0, -turnPower, 0) * rb.velocity;
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            Rigidbody rb = launchedBall.GetComponent<Rigidbody>();
+            rb.velocity = Quaternion.Euler(0, turnPower, 0) * rb.velocity;
         }
     }
     void ReturnToMovement()

@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEditor.UI;
+using UnityEditorInternal;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class ballScript : MonoBehaviour
 {
@@ -113,6 +115,7 @@ public class ballScript : MonoBehaviour
     }
     private void Update()
     {
+        
         if (curState == State.idle) { return; }
         ManagePhysics();
     }
@@ -136,5 +139,6 @@ public class ballScript : MonoBehaviour
             }
             rb.velocity /= 1 + ((friction * frictionMod * Time.deltaTime) / mass);
         }
+        
     }
 }

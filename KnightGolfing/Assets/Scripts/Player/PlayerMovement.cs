@@ -127,7 +127,7 @@ public class PlayerMovement : MonoBehaviour
         else if (onGround && timeSinceLastJump < 0.25f) { pInput.curState = PlayerInput.State.jumping; }
         else if (sliding) { pInput.curState = PlayerInput.State.sliding; }
         else if (inputDir != Vector3.zero && sprinting && rb.velocity.magnitude > 3) { pInput.curState = PlayerInput.State.sprinting; }
-        else if (inputDir != Vector3.zero) { pInput.curState = PlayerInput.State.moveing; }
+        else if (inputDir != Vector3.zero) { pInput.curState = PlayerInput.State.moving; }
     }
     void Move()
     {
