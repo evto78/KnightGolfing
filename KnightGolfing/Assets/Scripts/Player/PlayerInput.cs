@@ -14,7 +14,7 @@ public class PlayerInput : MonoBehaviour
 
     [Header("Controls")]
     public KeybindData keybinds;
-
+    public bool positive;
     [Header("Golfing")]
     public GameObject hitbox;
     public Animator anim;
@@ -33,7 +33,7 @@ public class PlayerInput : MonoBehaviour
         pMvt = GetComponent<PlayerMovement>();
         pItem = GetComponent<PlayerItem>();
         pUI = GetComponent<PlayerUI>();
-
+        positive = true;
     }
     void Start()
     {
@@ -45,7 +45,26 @@ public class PlayerInput : MonoBehaviour
         switch (curState)
         {
             case State.aiming:
-                chargeAmt += Time.deltaTime; if (chargeAmt > 1) { chargeAmt--; }
+                //quick thing to switch between adding delta time and subtracting it without a wave
+                switch(positive)
+                {
+                    case true:
+                        chargeAmt += Time.deltaTime;
+
+                        if (chargeAmt >= 1) 
+                        { 
+                            positive = false;
+                        }
+                        break;
+
+                    case false:
+                        chargeAmt -= Time.deltaTime;
+                        if (chargeAmt <= 0)
+                        {
+                            positive = true;
+                        }
+                        break;
+                }
                 ManageSwing();
                 break;
             case State.spectating:
