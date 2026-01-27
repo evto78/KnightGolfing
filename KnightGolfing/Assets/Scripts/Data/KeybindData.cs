@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [System.Serializable]
@@ -33,5 +34,10 @@ public class KeybindData
         interact = KeyCode.F;
         changeClub = KeyCode.E;
         changeBall = KeyCode.Q;
+    }
+
+    public void FirstPersonKeybinds()
+    {
+        return;
     }
 }
