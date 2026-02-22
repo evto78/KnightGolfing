@@ -1,19 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using static FirstPersonPlayerInput;
 
 public class FirstPersonPlayerInput : MonoBehaviour
 {
-    public Vector2 movementVector;
+    private Vector3 movementVector;
+    private Vector2 lookVector;
     public KeybindData keybinds;
 
-    public enum playerMoveState 
+    public enum PlayerMoveState 
     {
         Moving,
         Sprinting,
         Crouching,
-        Jumping
+        Jumping,
+        Idle
     }
+    [SerializeField] private PlayerMoveState currentState;
 
 
     // Start is called before the first frame update
@@ -27,32 +32,37 @@ public class FirstPersonPlayerInput : MonoBehaviour
     void Update()
     {
         HandleInput();
-        
     }
 
 
     void HandleInput()
     {
-        if (Input.GetKey(keybinds.walkForward))
+        movementVector = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        if (movementVector.x + movementVector.y + movementVector.z != 0)
         {
-            movementVector.y = 1;
+            currentState = PlayerMoveState.Moving;
         }
-        if (Input.GetKey(keybinds.walkBackward))
+        else
         {
-            movementVector.y = -1;
-        }
-        if (Input.GetKey(keybinds.walkLeft))
-        {
-            movementVector.x = -1;
-        }
-        if (Input.GetKey(keybinds.walkRight))
-        {
-            movementVector.x = 1;
+            currentState = PlayerMoveState.Idle;
         }
 
+        lookVector = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+    }
 
+    public Vector3 GetVector()
+    {
+        return movementVector;
+    }
+    
+    public PlayerMoveState GetMoveState()
+    {
+        return currentState;
+    }
 
-
+    public Vector2 GetLookVector()
+    {
+        return lookVector;
     }
 
 }
