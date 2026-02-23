@@ -23,7 +23,7 @@ public class FirstPersonCamera : MonoBehaviour
     void Update()
     {
         //ViewBobbing();
-        Look();
+        //Look();
     }
 
     void ViewBobbing()
@@ -46,7 +46,6 @@ public class FirstPersonCamera : MonoBehaviour
 
     void Look()
     {
-        Vector2 look = playerInput.GetLookVector();
-        Quaternion.AngleAxis(look.x, Vector3.right);
+        
     }
 }

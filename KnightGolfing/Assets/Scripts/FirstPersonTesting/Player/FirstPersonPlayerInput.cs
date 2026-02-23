@@ -47,7 +47,7 @@ public class FirstPersonPlayerInput : MonoBehaviour
             currentState = PlayerMoveState.Idle;
         }
 
-        lookVector = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+        
     }
 
     public Vector3 GetVector()
@@ -60,9 +60,5 @@ public class FirstPersonPlayerInput : MonoBehaviour
         return currentState;
     }
 
-    public Vector2 GetLookVector()
-    {
-        return lookVector;
-    }
 
 }

@@ -5,6 +5,10 @@ using UnityEngine;
 public class FirstPersonMovement : MonoBehaviour
 {
     private float baseMoveSpeed;
+    private float lookSpeed = 3;
+    Vector2 rotation = Vector2.zero;
+
+
     [SerializeField] FirstPersonPlayerInput playerInput;
     void Start()
     {
@@ -23,7 +27,12 @@ public class FirstPersonMovement : MonoBehaviour
         {
             transform.position += playerInput.GetVector() * baseMoveSpeed * Time.deltaTime;
         }
-        transform.rotation = new Quaternion(transform.rotation.x, transform.GetChild(1).rotation.y, transform.rotation.z, transform.rotation.w);
+        rotation.x += -Input.GetAxis("Mouse Y");
+        rotation.y += Input.GetAxis("Mouse X");
+        rotation.x = Mathf.Clamp(rotation.x, -30, 30);
+
+        transform.eulerAngles = new Vector2()
+
     }
 
 }
