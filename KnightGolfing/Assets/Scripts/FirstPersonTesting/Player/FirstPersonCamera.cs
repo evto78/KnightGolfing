@@ -8,44 +8,30 @@ using UnityEngine.UIElements;
 
 public class FirstPersonCamera : MonoBehaviour
 {
-    [SerializeField] private FirstPersonPlayerInput playerInput;
-    private Vector3 initialPosition;
-    private float yOffset;
-    private float timer;
+    public Transform player;
+    public float mouseSensitivity;
+    private float cameraVerticalRotation;
 
     // Start is called before the first frame update
     void Start()
     {
-        initialPosition = transform.position;
+        mouseSensitivity = 3f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //ViewBobbing();
-        //Look();
-    }
+        float inputX = Input.GetAxis("Mouse X") * mouseSensitivity;
+        float inputY = Input.GetAxis("Mouse Y") * mouseSensitivity;
 
-    void ViewBobbing()
-    {
-        Vector3 moveDirection = playerInput.GetVector();
-        yOffset = Mathf.Sin(timer * 5) * 5f;
+        cameraVerticalRotation -= inputY;
+        cameraVerticalRotation = Mathf.Clamp(cameraVerticalRotation, -90f, 90f);
+        transform.localEulerAngles = Vector3.right * cameraVerticalRotation;
 
-        if (playerInput.GetMoveState() == FirstPersonPlayerInput.PlayerMoveState.Moving)
-        {
-            timer += 0.5f * Time.deltaTime;
-            transform.position = new Vector3(transform.position.x, initialPosition.y + yOffset, transform.position.z);
-        }
-        else
-        {
-            Vector3.MoveTowards(transform.position, new Vector3(transform.position.x, initialPosition.y, transform.position.z), 0.55f);
-            timer = 0;
-        }
-
-    }
-
-    void Look()
-    {
-        
+        player.Rotate(Vector3.up * inputX);
     }
 }
+
+
+
+
