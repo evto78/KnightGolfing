@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    public List<PotionObject> potions;
 
     // Start is called before the first frame update
     void Start()
