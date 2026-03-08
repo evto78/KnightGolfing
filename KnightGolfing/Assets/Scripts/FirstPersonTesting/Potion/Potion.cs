@@ -19,7 +19,7 @@ public class Potion : MonoBehaviour
         Poison,
         Regeneration
     }
-    public StatModifier statMod;
+    private StatModifier statMod;
 
     public float duration;
     public float concentration;
@@ -32,8 +32,20 @@ void Start()
         Array temp = StatModifier.GetValues(typeof(StatModifier));
         statMod = (StatModifier)temp.GetValue((int)UnityEngine.Random.Range(0, 4));
         Debug.Log(statMod);
+    }
 
-        switch (statMod)
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            AddIngredient(statMod);
+        }
+    }
+
+    void AddIngredient(StatModifier _statMod)
+    {
+        switch (_statMod)
         {
             case StatModifier.Fire:
                 damageMax = 25;
@@ -64,20 +76,14 @@ void Start()
                 break;
         }
 
-        damage = UnityEngine.Random.Range(0.2f,damageMax);
-        radius = UnityEngine.Random.Range(0.2f, radiusMax);
-        concentration = UnityEngine.Random.Range(0.2f, concentrationMax);
-        duration = UnityEngine.Random.Range(0.2f, durationMax);
+        damage += UnityEngine.Random.Range(0.2f, damageMax);
+        radius += UnityEngine.Random.Range(0.2f, radiusMax);
+        concentration += UnityEngine.Random.Range(0.2f, concentrationMax);
+        duration += UnityEngine.Random.Range(0.2f, durationMax);
 
         Debug.Log("dmg " + damage);
         Debug.Log("radius " + radius);
         Debug.Log("concentrtion " + concentration);
         Debug.Log("duration " + duration);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }
