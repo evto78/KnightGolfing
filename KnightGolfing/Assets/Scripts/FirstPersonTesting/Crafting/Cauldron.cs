@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Cauldron : Interactable
+public class Cauldron : MonoBehaviour
 {
-    public override void Interact()
+    public Canvas cauldron;
+    public void Interact()
     {
-        
+        Debug.Log("Cauldron");
     }
 }
