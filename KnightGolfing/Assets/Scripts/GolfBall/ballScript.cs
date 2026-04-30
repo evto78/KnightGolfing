@@ -134,8 +134,8 @@ public class ballScript : MonoBehaviour
             switch (rb.velocity.magnitude)
             {
                 case < 0.3f: rb.velocity = Vector3.zero; curState = State.idle; return;
-                case < 1f: frictionMod = 1f + (rb.velocity.magnitude / 0.5f); break;
-                default: frictionMod = 1f; break;
+                case < 1f: frictionMod = 4f + (rb.velocity.magnitude / 0.5f); break;
+                default: frictionMod = 2f; break;
             }
             rb.velocity /= 1 + ((friction * frictionMod * Time.deltaTime) / mass);
         }

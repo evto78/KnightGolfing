@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -116,13 +117,30 @@ public class PlayerInput : MonoBehaviour
         pMvt.rb.velocity /= 4f;
         chargeAmt = 0f;
 
-        launchedBall = Instantiate(pItem.heldBalls[selectedBallSlot].ballInfo.prefab).GetComponent<ballScript>();
-        launchedBall.transform.position = ballSpawn.position;
-        launchedBall.transform.rotation = ballSpawn.rotation;
-        launchedBall.SetUp(pItem, this);
-        launchedBall.PrepareForLaunch();
-
-        pUI.ChangeState(PlayerUI.State.aiming);
+        if (launchedBall == null) //no ball
+        {
+            Debug.Log("null ball");
+            launchedBall = Instantiate(pItem.heldBalls[selectedBallSlot].ballInfo.prefab).GetComponent<ballScript>();
+            launchedBall.transform.position = ballSpawn.position;
+            launchedBall.transform.rotation = ballSpawn.rotation;
+            launchedBall.SetUp(pItem, this);
+            launchedBall.PrepareForLaunch();
+            pUI.ChangeState(PlayerUI.State.aiming);
+        }
+        else
+        {
+            if (Vector3.Distance(launchedBall.transform.position, transform.position) < 3.5f)
+            {
+                Debug.Log(Vector3.Distance(launchedBall.transform.position, transform.position));
+                launchedBall.PrepareForLaunch();
+                pUI.ChangeState(PlayerUI.State.aiming);
+            }
+            else 
+            {
+                Debug.Log("Too far away");
+                ReturnToMovement();
+            }
+        }
     }
     void Swing()
     {
