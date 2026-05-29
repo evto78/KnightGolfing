@@ -7,9 +7,11 @@ public class FirstPersonMovement : MonoBehaviour
 {
     private float baseMoveSpeed;
     [SerializeField] GameObject other;
+    [SerializeField] Rigidbody rb;
     public enum InteractState { Interacting, Not_Interacting};
     public InteractState interactState;
     public GameObject head;
+    Vector3 m_movementVector;
     //[SerializeField] FirstPersonPlayerInput playerInput;
     void Start()
     {
@@ -20,12 +22,21 @@ public class FirstPersonMovement : MonoBehaviour
     void Update()
     {
         //movement
-        transform.position += transform.forward * Input.GetAxis("Vertical") * baseMoveSpeed * Time.deltaTime;
-        transform.position += transform.right * Input.GetAxis("Horizontal") * baseMoveSpeed * Time.deltaTime;
+        m_movementVector = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        transform.position += transform.forward * m_movementVector.z * baseMoveSpeed * Time.deltaTime;
+        transform.position += transform.right * m_movementVector.x * baseMoveSpeed * Time.deltaTime;
         if (Input.GetKey(KeyCode.E) && interactState == InteractState.Interacting)
         {
             other.gameObject.SendMessage("Interact");
         }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            
+        }
+
+
+
     }
 
     private void FixedUpdate()
@@ -48,4 +59,9 @@ public class FirstPersonMovement : MonoBehaviour
         }
     }
 
+
+    void Attack()
+    {
+
+    }
 }

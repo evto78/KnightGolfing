@@ -5,7 +5,7 @@ using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Potion : MonoBehaviour
+public class Potion : Item
 {
     private float damageMax;
     private float radiusMax;

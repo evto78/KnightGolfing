@@ -6,6 +6,7 @@ TagManager:
   tags:
   - hitbox
   - Interactable
+  - Item
   layers:
   - Default
   - TransparentFX
