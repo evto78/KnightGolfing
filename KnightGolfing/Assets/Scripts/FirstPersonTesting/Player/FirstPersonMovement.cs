@@ -60,8 +60,4 @@ public class FirstPersonMovement : MonoBehaviour
     }
 
 
-    void Attack()
-    {
-
-    }
 }
