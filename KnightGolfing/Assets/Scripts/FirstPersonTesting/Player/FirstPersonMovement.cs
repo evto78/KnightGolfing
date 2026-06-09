@@ -29,6 +29,11 @@ public class FirstPersonMovement : MonoBehaviour
         {
             other.gameObject.SendMessage("Interact");
         }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            rb.velocity.Set(rb.velocity.x, 0, rb.velocity.z);
+            rb.AddForce(new Vector3(0, 2000, 0));
+        }
 
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {

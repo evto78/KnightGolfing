@@ -55,7 +55,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         initialHeight = myCollider.height;
-        keybinds = pInput.keybinds;
+;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         foreach (Camera cam in camHolder.GetComponentsInChildren<Camera>()) { cam.fieldOfView = fov; }
@@ -75,7 +75,7 @@ public class PlayerMovement : MonoBehaviour
     {
         onGround = GroundCheck();
         PositionBackPack();
-        if (pInput.freezeMovement) { CameraMove(); Friction(); Gravity(); return; }
+
         StatUpdate();
         GetInput();
         Move();
@@ -123,11 +123,7 @@ public class PlayerMovement : MonoBehaviour
         CameraMove();
 
         //UpdateState
-        if (onGround && rb.velocity.magnitude < 0.1f) { pInput.curState = PlayerInput.State.idle; }
-        else if (onGround && timeSinceLastJump < 0.25f) { pInput.curState = PlayerInput.State.jumping; }
-        else if (sliding) { pInput.curState = PlayerInput.State.sliding; }
-        else if (inputDir != Vector3.zero && sprinting && rb.velocity.magnitude > 3) { pInput.curState = PlayerInput.State.sprinting; }
-        else if (inputDir != Vector3.zero) { pInput.curState = PlayerInput.State.moving; }
+
     }
     void Move()
     {

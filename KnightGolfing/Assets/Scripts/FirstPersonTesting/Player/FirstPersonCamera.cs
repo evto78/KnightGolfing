@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
-using UnityEngine.UIElements;
 
 public class FirstPersonCamera : MonoBehaviour
 {
@@ -16,6 +15,7 @@ public class FirstPersonCamera : MonoBehaviour
     void Start()
     {
         mouseSensitivity = 3f;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame

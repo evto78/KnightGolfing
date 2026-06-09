@@ -102,7 +102,6 @@ public class PlayerItem : MonoBehaviour
     void Update()
     {
         ItemStatUpdate();
-        pUI.UpdateUI();
         ClubUpdate();
     }
     public void ItemStatUpdate()

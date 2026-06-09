@@ -25,11 +25,6 @@ public class GoalPost : MonoBehaviour
             Rigidbody rb = other.gameObject.GetComponent<Rigidbody>();
 
             rb.velocity = rb.velocity / (goalSlime);
-
-            if (other.gameObject.GetComponent<ballScript>().curState == ballScript.State.idle)
-            {
-                Destroy(gameObject);
-            }
         }
 
     }

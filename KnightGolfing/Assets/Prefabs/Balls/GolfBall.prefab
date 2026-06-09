@@ -93,7 +93,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4027489347984302116}
   - component: {fileID: 4385316503967139487}
-  - component: {fileID: 4544930742694398644}
+  - component: {fileID: 4719389610155530246}
   - component: {fileID: 1663665015230248504}
   m_Layer: 8
   m_Name: GolfBall
@@ -131,15 +131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
-  basePhyMat: {fileID: 13400000, guid: 8f45d74524d88b34e9f9c2d4017882a9, type: 2}
-  curState: 0
-  mass: 0
-  pierce: 0
-  airDrag: 0
-  friction: 0
-  bounce: 0
-  onGround: 0
---- !u!54 &4544930742694398644
+--- !u!54 &4719389610155530246
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

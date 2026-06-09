@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class ActionScript : MonoBehaviour
@@ -31,7 +32,10 @@ public class ActionScript : MonoBehaviour
         {
             Heavy_2();
         }
-
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            ball = Instantiate(ball);
+        }
 
     }
 
@@ -44,7 +48,8 @@ public class ActionScript : MonoBehaviour
 
     void Light_2()
     {
-
+        GameObject _hitbox = hitboxes[1];
+        _hitbox.SetActive(true);
     }
 
     void Heavy_1()
