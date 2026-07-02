@@ -38,8 +38,8 @@ public class PlayerItem : MonoBehaviour
     private void Awake()
     {
         pMvt = GetComponent<PlayerMovement>();
-        pUI = GetComponent<PlayerUI>();
-        pInput = GetComponent<PlayerInput>();
+        //pUI = GetComponent<PlayerUI>();
+        //pInput = GetComponent<PlayerInput>();
     }
     void Start()
     {

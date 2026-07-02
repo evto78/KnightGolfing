@@ -5,10 +5,15 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     //Manager Scripts
-    PlayerInput pInput; KeybindData keybinds;
+    [Header("Scripts")]
+    KeybindData keybinds;
+
+
 
     [Header("Movement")]
     Vector3 inputDir;
+    Vector3 previousPosition;
+    Vector3 currentPosition;
     public Rigidbody rb;
     public float baseWalkSpeed; float walkSpeed;
     public float sprintingModifier;
@@ -49,8 +54,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
-        pInput = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody>();
+        keybinds = new KeybindData();
     }
     void Start()
     {
@@ -111,13 +116,15 @@ public class PlayerMovement : MonoBehaviour
         Vector3 flatCamForward = new Vector3(cam.forward.x, 0f, cam.forward.z).normalized;
         Vector3 flatCamRight = new Vector3(cam.right.x, 0f, cam.right.z).normalized;
         inputDir = Vector3.zero;
-        if (Input.GetKey(keybinds.walkForward)) { inputDir += flatCamForward; }
-        if (Input.GetKey(keybinds.walkLeft)) { inputDir -= flatCamRight; }
-        if (Input.GetKey(keybinds.walkRight)) { inputDir += flatCamRight; }
-        if (Input.GetKey(keybinds.walkBackward)) { inputDir -= flatCamForward; }
-        if (onGround) { sprinting = Input.GetKey(keybinds.sprint); }
-        if (Input.GetKeyDown(keybinds.jump)) { Jump(); }
-        if (Input.GetKey(keybinds.slide)) { Slide(); } else { sliding = false; myCollider.height = initialHeight; }
+
+        if (Input.GetKey(KeyCode.W)) { inputDir += flatCamForward; }
+        if (Input.GetKey(KeyCode.A)) { inputDir -= flatCamRight; }
+        if (Input.GetKey(KeyCode.D)) { inputDir += flatCamRight; }
+        if (Input.GetKey(KeyCode.S)) { inputDir -= flatCamForward; }
+       
+        if (onGround) { sprinting = Input.GetKey(KeyCode.LeftShift); }
+        if (Input.GetKeyDown(KeyCode.Space)) { Jump(); }
+        if (Input.GetKey(KeyCode.LeftControl)) { Slide(); } else { sliding = false; myCollider.height = initialHeight; }
         inputDir = inputDir.normalized;
 
         CameraMove();
@@ -127,11 +134,13 @@ public class PlayerMovement : MonoBehaviour
     }
     void Move()
     {
+        previousPosition = currentPosition;
+        currentPosition = transform.position;
         float sprintBonus;
         if (sprinting) { sprintBonus = sprintingModifier; } else { sprintBonus = 1f; }
         if (sliding) { inputDir /= 1.5f; sprintBonus = 1f; }
-        if (onGround) { rb.AddForce(inputDir * walkSpeed * Time.deltaTime * sprintBonus); }
-        else { rb.AddForce(inputDir * airControlSpeed * Time.deltaTime * sprintBonus); }
+        if (onGround) { transform.position += (inputDir * 25 * Time.deltaTime * sprintBonus); }
+        else { rb.AddForce((currentPosition - previousPosition) * airControlSpeed * Time.deltaTime * sprintBonus); }
         Friction();
         Gravity();
     }

@@ -37,7 +37,7 @@ public class FirstPersonMovement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            
+            rb.AddForce(m_movementVector, ForceMode.VelocityChange);
         }
 
 

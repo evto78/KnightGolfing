@@ -29,7 +29,7 @@ public class LightTwoHitbox : MonoBehaviour
         if (collision.gameObject.CompareTag("ball"))
         {
             ballScript ball = collision.gameObject.GetComponent<ballScript>();
-            ball.Launch(50f, Vector3.up);
+            ball.Launch(1f, Vector3.up);
         }
 
     }

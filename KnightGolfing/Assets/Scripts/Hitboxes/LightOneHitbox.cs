@@ -31,7 +31,7 @@ public class LightOneHitbox : MonoBehaviour
         {
             Vector3 launch = new Vector3(transform.forward.x, transform.forward.y + 0.25f, transform.forward.z + 0.5f);
             ballScript ball = collision.gameObject.GetComponent<ballScript>();
-            ball.Launch(50f, launch);
+            ball.Launch(1f, launch);
         }
         
     }

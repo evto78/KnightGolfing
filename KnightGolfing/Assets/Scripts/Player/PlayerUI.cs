@@ -8,5 +8,6 @@ using Unity.VisualScripting;
 
 public class PlayerUI : MonoBehaviour
 {
+
 }
 
