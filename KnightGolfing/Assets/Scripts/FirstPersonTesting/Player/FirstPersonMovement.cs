@@ -31,7 +31,7 @@ public class FirstPersonMovement : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            rb.velocity.Set(rb.velocity.x, 0, rb.velocity.z);
+            rb.linearVelocity.Set(rb.linearVelocity.x, 0, rb.linearVelocity.z);
             rb.AddForce(new Vector3(0, 2000, 0));
         }
 

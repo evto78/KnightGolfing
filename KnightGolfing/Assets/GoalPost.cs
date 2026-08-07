@@ -24,7 +24,7 @@ public class GoalPost : MonoBehaviour
         {
             Rigidbody rb = other.gameObject.GetComponent<Rigidbody>();
 
-            rb.velocity = rb.velocity / (goalSlime);
+            rb.linearVelocity = rb.linearVelocity / (goalSlime);
         }
 
     }

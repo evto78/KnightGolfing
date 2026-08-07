@@ -32,12 +32,12 @@ public class BodyHeightAdjust : MonoBehaviour
     }
     void Update()
     {
-        currentSpeed = pMvt.rb.velocity.magnitude;
+        currentSpeed = pMvt.rb.linearVelocity.magnitude;
         progressToRun = Mathf.Clamp((currentSpeed - walkRunSpeedThreshold.x) / walkRunSpeedThreshold.y, 0f, 1f);
 
         //auto state change
         if (progressToRun == 1) { ChangeState(state.run); } else { ChangeState(state.walk); }
-        if (pMvt.rb.velocity.magnitude < 0.6f) { ChangeState(state.idle); }
+        if (pMvt.rb.linearVelocity.magnitude < 0.6f) { ChangeState(state.idle); }
         actingOffset = Mathf.Lerp(crouchOffset, runOffset, progressToRun);
 
         foreach(IKFootSolver solver in legs) { solver.stepSpeed = baseStepSpeed * Mathf.Lerp(walkStepSpeedMod, runStepSpeedMod, progressToRun); }

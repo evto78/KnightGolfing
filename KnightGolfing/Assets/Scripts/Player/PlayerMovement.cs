@@ -146,10 +146,10 @@ public class PlayerMovement : MonoBehaviour
     }
     void Turn()
     {
-        if(rb.velocity != Vector3.zero)
+        if(rb.linearVelocity != Vector3.zero)
         {
             Quaternion curRotation = mesh.rotation;
-            Vector3 flatVel = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+            Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
             if(flatVel != Vector3.zero)
             {
                 mesh.rotation = Quaternion.LookRotation(flatVel);
@@ -185,11 +185,11 @@ public class PlayerMovement : MonoBehaviour
     }
     void Jump()
     {
-        if (jumpsLeft > 0 && (timeSinceLastJump > 0.25f || rb.velocity.y < 0))
+        if (jumpsLeft > 0 && (timeSinceLastJump > 0.25f || rb.linearVelocity.y < 0))
         {
             timeSinceLastJump = 0f;
             jumpsLeft -= 1;
-            if(rb.velocity.y < 0) { rb.velocity += Vector3.up * -rb.velocity.y; }
+            if(rb.linearVelocity.y < 0) { rb.linearVelocity += Vector3.up * -rb.linearVelocity.y; }
             rb.AddForce(transform.up * jumpHeight, ForceMode.Force);
         }
     }
@@ -204,10 +204,10 @@ public class PlayerMovement : MonoBehaviour
         if (sliding) { actingFriction = ((friction - 1f) / 4f) + 1f; }
         if (onGround)
         {
-            Vector3 flatVel = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+            Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
             if (inputDir == Vector3.zero && !sliding) { flatVel = flatVel / (friction * 4 * (1 + Time.deltaTime)); rb.useGravity = false; } else { rb.useGravity = true; }
             flatVel = flatVel / (friction * (1 + Time.deltaTime));
-            rb.velocity = new Vector3(flatVel.x, rb.velocity.y / (1 + Time.deltaTime), flatVel.z);
+            rb.linearVelocity = new Vector3(flatVel.x, rb.linearVelocity.y / (1 + Time.deltaTime), flatVel.z);
         }
         else { rb.useGravity = true; }
     }
