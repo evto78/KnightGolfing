@@ -68,6 +68,7 @@ public class PlayerMovement : MonoBehaviour
         camDistance = Mathf.Abs(camHolder.GetChild(0).localPosition.z);
         actingCamOffset = camOffset;
         camHolder.localPosition = initialCamPos + actingCamOffset;
+        ResumeProcedural();
 
         for (int i = 0; i < meshLimbTransforms.Count; i++)
         {
@@ -139,7 +140,11 @@ public class PlayerMovement : MonoBehaviour
         float sprintBonus;
         if (sprinting) { sprintBonus = sprintingModifier; } else { sprintBonus = 1f; }
         if (sliding) { inputDir /= 1.5f; sprintBonus = 1f; }
-        if (onGround) { transform.position += (inputDir * 25 * Time.deltaTime * sprintBonus); }
+        if (onGround) 
+        {
+            //transform.position += (inputDir * 25 * Time.deltaTime * sprintBonus); 
+            rb.AddForce(inputDir * baseWalkSpeed * Time.deltaTime * sprintBonus, ForceMode.Acceleration);
+        }
         else { rb.AddForce((currentPosition - previousPosition) * airControlSpeed * Time.deltaTime * sprintBonus); }
         Friction();
         Gravity();
