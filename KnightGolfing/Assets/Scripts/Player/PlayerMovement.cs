@@ -60,7 +60,6 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         initialHeight = myCollider.height;
-;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         foreach (Camera cam in camHolder.GetComponentsInChildren<Camera>()) { cam.fieldOfView = fov; }
@@ -76,11 +75,11 @@ public class PlayerMovement : MonoBehaviour
             meshInitialRot.Add(meshLimbTransforms[i].localEulerAngles);
         }
         backpackInitalOffset = backpack.localPosition;
+        PositionBackPack();
     }
     void Update()
     {
         onGround = GroundCheck();
-        PositionBackPack();
 
         StatUpdate();
         GetInput();
@@ -238,6 +237,6 @@ public class PlayerMovement : MonoBehaviour
         backpack.parent = torso;
         backpack.localPosition = Vector3.zero; backpack.localEulerAngles = Vector3.zero;
         backpack.localPosition += backpackInitalOffset;
-        backpack.parent = transform;
+        //backpack.parent = transform;
     }
 }
