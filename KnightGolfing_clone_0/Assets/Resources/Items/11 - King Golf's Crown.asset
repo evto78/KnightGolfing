@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 394e9b0f061ed8449a901628dca56207, type: 3}
+  m_Name: 11 - King Golf's Crown
+  m_EditorClassIdentifier: 
+  id: 11
+  sprite: {fileID: 21300000, guid: 623f27140cab00745b5bc47d316654c3, type: 3}
+  itemName: King Golf's Crown
+  statBuffs: []
+  statDebuffs: []
+  activateAbility: 
+  hasActive: 0
+  activeCooldown: 0
+  description: Influence where the ball moves both in flight and while rolling with
+    your movement keys. Stronger influence with more stacks
+  flavorText: '"Few are worthy"'
+  rarity: 2
+  type: 0
+  itemInfo:
+    stacks: 0
+  clubInfo:
+    meshPrefab: {fileID: 0}
+    force: 0
+    control: 0
+    swingSpeed: 0
+  ballInfo:
+    prefab: {fileID: 0}
+    mass: 0
+    pierce: 0
+    airDrag: 0
+    bounce: 0
+  armorInfo:
+    speedMod: 0
+    jumpMod: 0

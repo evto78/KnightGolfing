@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 394e9b0f061ed8449a901628dca56207, type: 3}
+  m_Name: 12 - Excalibur
+  m_EditorClassIdentifier: 
+  id: 12
+  sprite: {fileID: 21300000, guid: 7eedeb25fa274ab4a868d1da6c98e086, type: 3}
+  itemName: Excalibur
+  statBuffs:
+  - 4x Control
+  - 1.5x Force
+  statDebuffs: []
+  activateAbility: Ball gains 5 more pierce for 1 second
+  hasActive: 1
+  activeCooldown: 5
+  description: Shot prediction is more accurate
+  flavorText: '"You have been chosen"'
+  rarity: 2
+  type: 1
+  itemInfo:
+    stacks: 0
+  clubInfo:
+    meshPrefab: {fileID: 8846383360816344296, guid: 99920bc53bc9d2c4286072dd62358423, type: 3}
+    force: 1.5
+    control: 4
+    swingSpeed: 1
+  ballInfo:
+    prefab: {fileID: 0}
+    mass: 0
+    pierce: 0
+    airDrag: 0
+    bounce: 0
+  armorInfo:
+    speedMod: 0
+    jumpMod: 0
